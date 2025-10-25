@@ -7,15 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="./styles/home.css"/>
 </head>
 
 <body class="content">
 
 <main class="main">
-    <section class="section">
+    <div class="main-loto-div">
         <h1>Welcome to LOTO 6/45</h1>
-        <p>Please log in to continue.</p>
-    </section> 
+
+        <% if( user !== undefined ) {%>
+            <h1>Hello, <%= user.first_name %> <%= user.last_name %>!</h1>   
+            <a href="/logout" class="logout-btn"><button>Click here to log out</button></a>  
+        <% } else {%>
+            <a class="login-btn" href="/login"><button>Log In</button></a>
+            <p>Please log in to continue.</p>
+        <% } %>
+        
+        
+    </div> 
 </main>
 
 </body>

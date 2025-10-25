@@ -7,6 +7,9 @@ const session = require('express-session')
 const pgSession = require('connect-pg-simple')(session)
 
 const homeRouter = require('./routes/home.routes');
+const loginRoute = require('./routes/login.routes');
+const logoutRoute = require('./routes/logout.routes');
+const signupRoute = require('./routes/signup.routes');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -26,6 +29,9 @@ app.use(session({
 }))
 
 app.use('/', homeRouter);
+app.use('/login', loginRoute);
+app.use('/logout', logoutRoute);
+app.use('/signup', signupRoute);
 
 app.listen(3000);
 
