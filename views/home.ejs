@@ -16,7 +16,7 @@
     <div class="main-loto-div">
         <h1>Welcome to LOTO 6/45</h1>
 
-        <% if(user) {%>
+        <% if(!user) {%>
             <a class="login-btn" href="/login"><button>Log In</button></a>
             <p>Please log in to continue.</p>
         <% } else {%>
