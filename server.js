@@ -5,7 +5,8 @@ const pg = require('pg')
 const db = require('./db')
 const session = require('express-session')
 const pgSession = require('connect-pg-simple')(session)
-const { auth } = require('express-openid-connect');
+const { auth: authOIDC } = require('express-openid-connect');
+const { auth: jwtCheck } = require('express-oauth2-jwt-bearer');
 
 const homeRouter = require('./routes/home.routes');
 const loginRoute = require('./routes/login.routes');
