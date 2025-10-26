@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
 router.post('/', async function (req, res, next) {
     let user=undefined
     user = await User.fetchByUsername(req.body.user)
-    let errormsg = 'Incorrect password'
+    let errormsg = 'Incorrect user password'
     
     if(user && await user.checkPassword(req.body.password)){
             req.session.user = user

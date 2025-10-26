@@ -23,7 +23,17 @@ const sql_create_rounds = `CREATE TABLE IF NOT EXISTS rounds (
     id SERIAL PRIMARY KEY,
     active BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    closed_at TIMESTAMP
+    closed_at TIMESTAMP,
+    winning_numbers INT[] NOT NULL
+)`;
+
+const sql_create_tickets = `CREATE TABLE IF NOT EXISTS tickets (
+    ticket_id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_sub TEXT NOT NULL,
+    round_id INT NOT NULL REFERENCES rounds(id),
+    numbers INT[] NOT NULL,
+    user_oib VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 )`;
 
 let table_names = [
@@ -33,7 +43,8 @@ let table_names = [
 
 let tables = [
     sql_create_sessions,
-    sql_create_rounds
+    sql_create_rounds,
+    sql_create_tickets
 ];
 
 let table_data = [
@@ -51,6 +62,7 @@ if ((tables.length !== table_data.length) || (tables.length !== table_names.leng
 }
 
 (async () => {
+    await db.pool.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto";');
     console.log("Creating and populating tables");
     for (let i = 0; i < tables.length; i++) {
         console.log("Creating table " + table_names[i] + ".");
