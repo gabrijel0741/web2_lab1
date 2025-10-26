@@ -18,7 +18,7 @@ app.set('view engine', 'ejs');
 
 //
 const oidcConfig = {
-  authRequired: true, 
+  authRequired: false, 
   auth0Logout: true,
   secret: process.env.AUTH0_SECRET,
   baseURL: process.env.AUTH0_BASE_URL,
