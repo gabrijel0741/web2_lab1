@@ -10,21 +10,21 @@ router.post('/', async function (req, res, next) {
     let numbers = numbers_split.map(number => parseInt(number.trim()));
     //Provjere brojeva
     if (numbers.length < 6 || numbers.length > 10) {
-        res.redirect('/?err=Numbers count must be between 6 and 10.');
+        return {err: "Numbers count must be between 6 and 10.", qr: null};
     }
     if (!numbers.every(n => n >= 1 && n <= 45)) {
-        res.redirect('/?err=Numbers must be between 1 and 45.');
+        return {err: "Numbers must be between 1 and 45.", qr: null};
     }
 
     const nums_set = new Set(numbers);
     if (nums_set.size !== numbers.length) {
-        res.redirect('/?err=All numbers must be unique.');
+        return {err: "All numbers must be unique.", qr: null};
     }
 
     // prvo provjeri postoji li aktivno kolo
     let activeRound = await Round.fetchActiveRound()
     if(activeRound === "No active round found."){
-        res.redirect('/?err=No active round found.');
+        return {err: "No active round found.", qr: null};
     }
 
     let user = req.oidc.user
@@ -39,10 +39,10 @@ router.post('/', async function (req, res, next) {
 
     QRCode.toDataURL(qrUrl, function (err, generated_url) {
         if (err) {
-            res.redirect('/?err=ERROR generating QR code for ticket: ' + ticket_created.ticket_id);
+            return {err: "ERROR generating QR code", qr: null};
         }
         else {
-            res.redirect('/?title=Ticket created successfully!&qr=' + generated_url);
+            return {err: null, qr: generated_url};
         }
     });    
         

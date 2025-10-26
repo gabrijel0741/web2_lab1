@@ -31,6 +31,7 @@
                     <input class="loto-oib-input" type="text" name="oib" id="oib" maxlength="20" minlength="1">
                 </div>
                 <input class="submit-ticket" type="submit" value="Submit ticket">
+                <button class="submit-ticket-btn" onclick="storeResult()">Submit ticket</button>
                         
                 <% if (err !== undefined ) { %>
                     <p class="alert"><%= err %></p>
@@ -51,3 +52,35 @@
 </body>
 
 </html>
+
+
+<script>
+
+    function storeResult() {
+        const ticketData = {
+            numbers: document.getElementById('numbers').value,
+            oib: document.getElementById('oib').value
+        }
+
+        fetch('/store-result', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ticketData)
+        }).then(response => response.json())
+        .then(data => {
+            if (data.err) {
+                document.querySelector('.alert').value = data.err;
+                document.querySelector('.qr-img').src = "";
+            } else {
+                if (data.qr) {
+                    document.querySelector('.alert').value = "";
+                    document.querySelector('.qr-img').src = data.qr;
+                }
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+</script>
