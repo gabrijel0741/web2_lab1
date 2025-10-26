@@ -37,6 +37,7 @@ app.use((req, res, next) => {
 const checkJwt = jwtCheck({
   audience: process.env.AUTH0_AUDIENCE,
   secret: process.env.AUTH0_SECRET,
+  tokenSigningAlg: 'RS256',
   issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
 });
 app.use('/new-round', checkJwt);
