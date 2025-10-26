@@ -59,5 +59,19 @@ app.use('/', homeRouter);
 //app.use('/logout', logoutRoute);
 //app.use('/signup', signupRoute);
 
+app.get('/auth-test', (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    res.json({
+      authenticated: true,
+      user: req.oidc.user
+    });
+  } else {
+    res.json({
+      authenticated: false,
+      message: 'User is not logged in'
+    });
+  }
+});
+
 app.listen(3000);
 
