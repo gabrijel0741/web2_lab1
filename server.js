@@ -12,6 +12,7 @@ const homeRouter = require('./routes/home.routes');
 const loginRoute = require('./routes/login.routes');
 const logoutRoute = require('./routes/logout.routes');
 const signupRoute = require('./routes/signup.routes');
+const storeResultRoute = require('./routes/store_result.routes');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -76,7 +77,7 @@ app.post('/close', checkJwt, async (req, res) => {
         numbers.add(num);
     }
     sorted_numbers = Array.from(numbers).sort((a, b) => a - b);
-    
+
     await db.pool.query(
       'UPDATE rounds SET active = FALSE, closed_at = NOW(), numbers = $1 WHERE active = TRUE', [sorted_numbers]
     );
@@ -111,6 +112,7 @@ app.use(session({
 }))
 
 app.use('/', homeRouter);
+app.use('/store-result', storeResultRoute);
 //app.use('/login', loginRoute);
 //app.use('/logout', logoutRoute);
 //app.use('/signup', signupRoute);
