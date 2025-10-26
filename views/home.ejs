@@ -20,7 +20,27 @@
             <a class="login-btn" href="/login"><button>Log In</button></a>
             <p>Please log in to continue.</p>
         <% } else {%>
-            <h1>Hello, <%= user.name %>!</h1>   
+            <h1>Hello, <%= user.name %>!</h1>
+            <form class="loto-form" action="/store-result" method="post">
+                <div class="label-input">
+                    <label class="loto-label" for="numbers">Write your Loto 6/45 numbers below:</label>
+                    <input class="loto-numbers-input" type="text" name="numbers" id="numbers" minlength="1">
+                </div>
+                <div class="label-input">
+                    <label class="loto-label" for="oib">OIB or passport ID:</label>
+                    <input class="loto-oib-input" type="text" name="oib" id="oib" maxlength="20" minlength="1">
+                </div>
+                <input class="submit-ticket" type="submit" value="Submit ticket">
+                        
+                <% if (err !== undefined ) { %>
+                    <p class="alert"><%= err %></p>
+                <% } %>
+
+                <% if (qr !== undefined ) { %>
+                    <img class="qr-img" src="<%= qr %>">
+                <% } %>
+            </form>
+
             <a href="/logout" class="logout-btn"><button>Click here to log out</button></a> 
         <% } %>
         

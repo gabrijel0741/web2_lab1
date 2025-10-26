@@ -70,8 +70,15 @@ app.post('/close', checkJwt, async (req, res) => {
       return res.status(204).send();
     }
 
+    const numbers = new Set();
+    while (numbers.size < 6) {
+        const num = Math.floor(Math.random() * 45) + 1;
+        numbers.add(num);
+    }
+    sorted_numbers = Array.from(numbers).sort((a, b) => a - b);
+    
     await db.pool.query(
-      'UPDATE rounds SET active = FALSE, closed_at = NOW() WHERE active = TRUE'
+      'UPDATE rounds SET active = FALSE, closed_at = NOW(), numbers = $1 WHERE active = TRUE', [sorted_numbers]
     );
     return res.status(204).send();
 
