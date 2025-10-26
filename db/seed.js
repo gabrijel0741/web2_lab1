@@ -62,7 +62,7 @@ if ((tables.length !== table_data.length) || (tables.length !== table_names.leng
 }
 
 (async () => {
-    await db.pool.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto";');
+    await pool.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto";');
     console.log("Creating and populating tables");
     for (let i = 0; i < tables.length; i++) {
         console.log("Creating table " + table_names[i] + ".");
