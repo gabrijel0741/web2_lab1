@@ -33,12 +33,6 @@ app.use((req, res, next) => {
   res.locals.user = req.oidc && req.oidc.user;
   next();
 });
-
-const checkJwt = jwtCheck({
-  audience: process.env.AUTH0_AUDIENCE,
-  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-});
-app.use('/api', checkJwt);
 //
 app.use(express.static(path.join(__dirname, 'public')));
 

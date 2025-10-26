@@ -1,12 +1,11 @@
 const {Pool} = require('pg');
 
 const pool = new Pool({
-    user: process.env.DB_USERNAME,
-    host: process.env.DB_HOSTNAME,
-    database: 'web2labos1',
-    password: process.env.DB_PASSWORD,
-    port: 5432,
-    ssl: { rejectUnauthorized: false }
+    user: 'postgres',
+    host: 'localhost',
+    database: 'web2lab1db',
+    password: 'bazepodataka',
+    port: 5433,
 });
 
 module.exports = {
@@ -15,7 +14,6 @@ module.exports = {
         return pool.query(text, params)
             .then(res => {
                 const duration = Date.now() - start;
-                //console.log('pg params: ', {user: process.env.DB_USER, host: process.env.DB_HOST, password: process.env.DB_PASSWORD});
                 return res;
             });
     },
