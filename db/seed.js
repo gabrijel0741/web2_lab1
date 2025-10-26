@@ -9,7 +9,7 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false }
 });
 
-const sql_create_users = `CREATE TABLE users (
+const sql_create_users = `CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
     user_name text NOT NULL UNIQUE,
     first_name text NOT NULL,
@@ -18,7 +18,7 @@ const sql_create_users = `CREATE TABLE users (
 )`;
 
 
-const sql_create_sessions = `CREATE TABLE session (
+const sql_create_sessions = `CREATE TABLE IF NOT EXISTS session (
     sid varchar NOT NULL COLLATE "default",
     sess json NOT NULL,
     expire timestamp(6) NOT NULL
