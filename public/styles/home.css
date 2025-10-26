@@ -63,13 +63,14 @@ body{
 
 .loto-form{
     display: flex;
-    height: 350px;
+    height: 230px;
     border-radius: 25px;
     border: 3px solid #c5c6c7;
     color: white;
     font-size: xx-large;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    gap: 16px;
     align-items: center;
     margin: 20px;
     padding: 20px;
@@ -77,8 +78,8 @@ body{
 }
 
 .submit-ticket-btn{
-    width: 35%;
-    height: 60px;
+    width: 60%;
+    height: 35px;
     font-size: xx-large;
     border: none;
     background-color: #ffffff;
@@ -90,4 +91,12 @@ body{
 .submit-ticket-btn:hover{
     background-color: white;
     opacity: 0.9;
+}
+.loto-oib-input, .loto-numbers-input{
+    border: 3px solid #c5c6c7;
+    border-radius: 10px;
+    width: 270px;
+    margin:15px 0 15px 0;
+    height: 24px;
+    font-size: x-large;
 }
