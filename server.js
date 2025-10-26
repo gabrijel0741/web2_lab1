@@ -5,6 +5,7 @@ const pg = require('pg')
 const db = require('./db')
 const session = require('express-session')
 const pgSession = require('connect-pg-simple')(session)
+const { auth } = require('express-oauth2-jwt-bearer');
 
 const homeRouter = require('./routes/home.routes');
 const loginRoute = require('./routes/login.routes');
@@ -14,6 +15,24 @@ const signupRoute = require('./routes/signup.routes');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+//
+const config = {
+  authRequired: false,  // allows public routes
+  auth0Logout: true,    // uses Auth0 logout
+  secret: process.env.AUTH0_SECRET,
+  baseURL: process.env.AUTH0_BASE_URL,
+  clientID: process.env.AUTH0_CLIENT_ID,
+  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+  audience: process.env.AUTH0_AUDIENCE
+};
+
+app.use(auth(config));
+
+app.use((req, res, next) => {
+  res.locals.user = req.oidc && req.oidc.user;
+  next();
+});
+//
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({ extended: true }));
