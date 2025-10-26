@@ -28,7 +28,7 @@
                 <label class="loto-label" for="oib">OIB or passport ID:</label>
                 <input class="loto-oib-input" type="text" name="oib" id="oib" maxlength="20" minlength="1">
 
-                <button class="submit-ticket-btn" onclick="storeResult()">Submit ticket</button>
+                <button class="submit-ticket-btn" type="button" onclick="storeResult()">Submit ticket</button>
                         
                 <% if (err !== undefined ) { %>
                     <p class="alert"><%= err %></p>
