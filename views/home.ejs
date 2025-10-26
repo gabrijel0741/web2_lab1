@@ -58,6 +58,11 @@
             numbers: document.getElementById('numbers').value,
             oib: document.getElementById('oib').value
         }
+        if (!ticketData.numbers || !ticketData.oib) {
+            document.querySelector('.alert').innerHTML = "Please fill in all fields.";
+            document.querySelector('.qr-img').src = "";
+            return;
+        }
 
         fetch('/store-result', {
             method: 'POST',
@@ -68,11 +73,11 @@
         }).then(response => response.json())
         .then(data => {
             if (data.err) {
-                document.querySelector('.alert').value = data.err;
+                document.querySelector('.alert').innerHTML = data.err;
                 document.querySelector('.qr-img').src = "";
             } else {
                 if (data.qr) {
-                    document.querySelector('.alert').value = "";
+                    document.querySelector('.alert').innerHTML = "";
                     document.querySelector('.qr-img').src = data.qr;
                 }
             }

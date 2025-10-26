@@ -6,9 +6,8 @@ const QRCode = require('qrcode');
 
 router.post('/', async function (req, res, next) {
     const {nums, user_oib} = req.body;
-    if (!nums || !user_oib) {
-        return res.status(400).json({ err: 'Numbers and OIB are required' });
-    }
+    console.log(nums);
+    console.log(user_oib);
 
     let numbers_split = nums.split(',');
 
