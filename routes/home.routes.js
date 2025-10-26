@@ -3,10 +3,10 @@ const router = express.Router();
 
 router.get('/', async function (req, res, next) {
     if (!req.oidc.isAuthenticated()) {
-        return res.redirect("/login");
+        res.redirect("/login");
     }
     res.render('home', {
-        title: 'Home',
+        title: req.oidc.isAuthenticated(),
         user: req.oidc.user
     });
 });
