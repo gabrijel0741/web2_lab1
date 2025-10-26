@@ -1,5 +1,5 @@
 body{
-    background-color: #69f961;
+    background-color: #8fea8a;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -80,6 +80,7 @@ body{
     width: 270px;
     margin:15px 0 15px 0;
     height: 24px;
+    font-size: x-large;
 }
 
 .login-input:focus{
@@ -99,7 +100,7 @@ body{
     font-size: xx-large;
 }
 .alert{
-    color: red;
+    color: rgb(220, 72, 72);
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 800;
 }
