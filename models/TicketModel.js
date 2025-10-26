@@ -22,9 +22,8 @@ module.exports = class Ticket {
     }
 
     static async fetchTicketById(ticket_id) {
-
         let results = await dbGetTicketById(ticket_id)
-        if (results.length === 0) {
+        if (!results) {
             return "No ticket found with the given ID."
         }
         return results

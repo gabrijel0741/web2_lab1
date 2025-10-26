@@ -10,41 +10,21 @@ router.post('/', async function (req, res, next) {
     let numbers = numbers_split.map(number => parseInt(number.trim()));
     //Provjere brojeva
     if (numbers.length < 6 || numbers.length > 10) {
-        res.render('home', {
-            title: 'Web2 Lab1',
-            user: req.oidc.user || null,
-            qr: null,
-            err: "Numbers count must be between 6 and 10."
-        });
+        res.redirect('/?err=Numbers count must be between 6 and 10.');
     }
     if (!numbers.every(n => n >= 1 && n <= 45)) {
-        res.render('home', {
-            title: 'Web2 Lab1',
-            user: req.oidc.user || null,
-            qr: null,
-            err: "Numbers must be between 1 and 45."
-        });
+        res.redirect('/?err=Numbers must be between 1 and 45.');
     }
 
     const nums_set = new Set(numbers);
     if (nums_set.size !== numbers.length) {
-        res.render('home', {
-            title: 'Web2 Lab1',
-            user: req.oidc.user || null,
-            qr: null,
-            err: "All numbers must be unique."
-        });
+        res.redirect('/?err=All numbers must be unique.');
     }
 
     // prvo provjeri postoji li aktivno kolo
     let activeRound = await Round.fetchActiveRound()
     if(activeRound === "No active round found."){
-        res.render('home', {
-            title: 'Web2 Lab1',
-            user: req.oidc.user || null,
-            qr: null,
-            err: "No active round found."
-        });
+        res.redirect('/?err=No active round found.');
     }
 
     let user = req.oidc.user
@@ -59,20 +39,10 @@ router.post('/', async function (req, res, next) {
 
     QRCode.toDataURL(qrUrl, function (err, generated_url) {
         if (err) {
-            res.render('home', {
-                title: 'Web2 Lab1',
-                user: req.oidc.user || null,
-                qr: null,
-                err: "ERROR generating QR code for ticket: " + ticket_created.ticket_id
-            });
+            res.redirect('/?err=ERROR generating QR code for ticket: ' + ticket_created.ticket_id);
         }
         else {
-            res.render('home', {
-                title: 'Web2 Lab1',
-                user: req.oidc.user || null,
-                qr: generated_url,
-                err: null
-            });
+            res.redirect('/?title=Ticket created successfully!&qr=' + generated_url);
         }
     });    
         

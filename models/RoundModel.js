@@ -19,7 +19,7 @@ module.exports = class Round {
 
     static async fetchActiveRound() {
         let results = await dbGetActiveRound()
-        if (results.length === 0) {
+        if (!results) {
             return "No active round found."
         }
         return results
