@@ -5,7 +5,12 @@ const Round = require('../models/RoundModel');
 const QRCode = require('qrcode');
 
 router.post('/', async function (req, res, next) {
-    let numbers_split = req.body.numbers.split(',');
+    const {nums, user_oib} = req.body;
+    if (!nums || !user_oib) {
+        return res.status(400).json({ err: 'Numbers and OIB are required' });
+    }
+
+    let numbers_split = nums.split(',');
 
     let numbers = numbers_split.map(number => parseInt(number.trim()));
     //Provjere brojeva
@@ -28,7 +33,6 @@ router.post('/', async function (req, res, next) {
     }
 
     let user = req.oidc.user
-    let user_oib = req.body.user_oib
     let ticket = new Ticket()
 
     // ako postoji, spremi tiket i vrati status 204 
