@@ -20,7 +20,7 @@
             <a class="login-btn" href="/login"><button>Log In</button></a>
             <p>Please log in to continue.</p>
         <% } else {%>
-            <h1>Hello, <%= user.first_name %> <%= user.last_name %>!</h1>   
+            <h1>Hello, <%= user.name %>!</h1>   
             <a href="/logout" class="logout-btn"><button>Click here to log out</button></a> 
         <% } %>
         
