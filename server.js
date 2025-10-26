@@ -55,9 +55,9 @@ app.use(session({
 }))
 
 app.use('/', homeRouter);
-app.use('/login', loginRoute);
-app.use('/logout', logoutRoute);
-app.use('/signup', signupRoute);
+//app.use('/login', loginRoute);
+//app.use('/logout', logoutRoute);
+//app.use('/signup', signupRoute);
 
 app.listen(3000);
 
