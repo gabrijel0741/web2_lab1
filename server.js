@@ -20,7 +20,7 @@ app.set('view engine', 'ejs');
 const oidcConfig = {
   authRequired: false, 
   auth0Logout: true,
-  secret: process.env.AUTH0_CLIENT_SECRET,
+  secret: process.env.AUTH0_SECRET,
   baseURL: process.env.AUTH0_BASE_URL,
   clientID: process.env.AUTH0_CLIENT_ID,
   issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
@@ -37,8 +37,57 @@ const checkJwt = jwtCheck({
   audience: process.env.AUTH0_AUDIENCE,
   issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
 });
-app.use('/new-round', checkJwt);
-app.use('/close', checkJwt);
+
+app.post('/new-round', checkJwt, async (req, res) => {
+  try {
+    const { rows } = await db.pool.query(
+      'SELECT * FROM rounds WHERE active = TRUE'
+    );
+    //Vec postoji aktivno kolo
+    if (rows.length > 0) {
+      return res.status(204).send();
+    }
+
+    await db.pool.query(
+      'INSERT INTO rounds (active, created_at) VALUES (TRUE, NOW())'
+    );
+    return res.status(204).send();
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Database error' });
+  }
+});
+
+app.post('/close', checkJwt, async (req, res) => {
+  try {
+      const { rows } = await db.pool.query(
+          'SELECT * FROM rounds WHERE active = TRUE'
+        );
+        
+    //Nema aktivnog kola
+    if (rows.length === 0) {
+      return res.status(204).send();
+    }
+
+    await db.pool.query(
+      'UPDATE rounds SET active = FALSE, closed_at = NOW() WHERE active = TRUE'
+    );
+    return res.status(204).send();
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Database error' });
+  }
+});
+
+// Error handler za JWT
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).json({ error: 'Token missing or invalid' });
+  }
+  next(err);
+});
 //
 app.use(express.static(path.join(__dirname, 'public')));
 

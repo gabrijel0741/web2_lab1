@@ -9,15 +9,6 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false }
 });
 
-const sql_create_users = `CREATE TABLE IF NOT EXISTS users (
-    user_id SERIAL PRIMARY KEY,
-    user_name text NOT NULL UNIQUE,
-    first_name text NOT NULL,
-    last_name text NOT NULL,
-    password text NOT NULL
-)`;
-
-
 const sql_create_sessions = `CREATE TABLE IF NOT EXISTS session (
     sid varchar NOT NULL COLLATE "default",
     sess json NOT NULL,
@@ -28,21 +19,24 @@ const sql_create_sessions = `CREATE TABLE IF NOT EXISTS session (
 const sql_create_session_index1 = `ALTER TABLE session ADD CONSTRAINT session_pkey PRIMARY KEY (sid) NOT DEFERRABLE INITIALLY IMMEDIATE`
 const sql_create_session_index2 = `CREATE INDEX IDX_session_expire ON session(expire)`
 
-const sql_insert_users = `INSERT INTO users (user_name, first_name, last_name, password) VALUES ('aadmin', 'admin', 'adminko', 'aadmin'),
-                          ('testiranje', 'test', 'testić', 'testiranje')`
+const sql_create_rounds = `CREATE TABLE IF NOT EXISTS rounds (
+    id SERIAL PRIMARY KEY,
+    active BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    closed_at TIMESTAMP
+)`;
 
 let table_names = [
-    "users",
-    "session"
+    "session",
+    "rounds"
 ]
 
 let tables = [
-    sql_create_users,
-    sql_create_sessions
+    sql_create_sessions,
+    sql_create_rounds
 ];
 
 let table_data = [
-    sql_insert_users,
     undefined
 ]
 
