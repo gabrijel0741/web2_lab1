@@ -43,7 +43,7 @@ router.post('/', async function (req, res, next) {
 
     // ako postoji, spremi tiket i vrati status 204 
     // Ako se metoda pozove dok su uplate aktivne ili li ako su za trenutno kolo već izvučeni brojevi, vrati status 409 
-    let ticket_created = await ticket.createTicket(user.sub, activeRound.id, numbers, user_oib)
+    let ticket_created = await ticket.createTicket(user.sub, activeRound[0].id, numbers, user_oib)
     console.log("Ticket created: " + JSON.stringify(ticket_created));
     const qrUrl = "https://web2-lab1-jd16.onrender.com/ticket/" + ticket_created.ticket_id
 

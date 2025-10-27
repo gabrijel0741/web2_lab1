@@ -43,7 +43,7 @@ dbGetActiveRound = async () => {
     const sql = 'SELECT * FROM rounds WHERE active = TRUE';
     try {
         const result = await db.query(sql, []);
-        return result.rows[0];
+        return result.rows;
     } catch (err) {
         console.log(err);
         throw err
