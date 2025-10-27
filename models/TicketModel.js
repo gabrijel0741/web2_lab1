@@ -32,9 +32,9 @@ module.exports = class Ticket {
 }
 
 dbGetTicketById = async (ticket_id) => {
-    const sql = `SELECT * FROM tickets WHERE ticket_id = ` + ticket_id;
+    const sql = `SELECT * FROM tickets WHERE ticket_id = $1`;
     try {
-        const result = await db.query(sql, []);
+        const result = await db.query(sql, [ticket_id]);
         return result.rows;
     } catch (err) {
         console.log(err);
