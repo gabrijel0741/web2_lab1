@@ -8,12 +8,11 @@ const { body } = require('express-validator');
 router.post('/', async function (req, res, next) {
     let nums = req.body.numbers;
     let user_oib = req.body.oib;
-    console.log(req.body);
     if (!nums || !user_oib) {
         return res.json({err: "Please fill in all fields.", qr: null, body: req.body});
     }
     let numbers_split = nums.split(',');
-
+    
     let numbers = numbers_split.map(number => parseInt(number.trim()));
     //Provjere brojeva
     if (numbers.length < 6 || numbers.length > 10) {
@@ -22,25 +21,26 @@ router.post('/', async function (req, res, next) {
     if (!numbers.every(n => n >= 1 && n <= 45)) {
         return {err: "Numbers must be between 1 and 45.", qr: null};
     }
-
+    
     const nums_set = new Set(numbers);
     if (nums_set.size !== numbers.length) {
         return {err: "All numbers must be unique.", qr: null};
     }
-
+    
+    console.log("Zapocinjem fetch aktivne runde");
     // prvo provjeri postoji li aktivno kolo
     let activeRound = await Round.fetchActiveRound()
     if(activeRound === "No active round found."){
         return {err: "No active round found.", qr: null};
     }
-
+    console.log("Aktivno kolo: " + JSON.stringify(activeRound));
     let user = req.oidc.user
     let ticket = new Ticket()
 
     // ako postoji, spremi tiket i vrati status 204 
     // Ako se metoda pozove dok su uplate aktivne ili li ako su za trenutno kolo već izvučeni brojevi, vrati status 409 
     let ticket_created = await ticket.createTicket(user.sub, activeRound.id, numbers, user_oib)
-
+    console.log("Ticket created: " + JSON.stringify(ticket_created));
     const qrUrl = `https://web2-lab1-jd16.onrender.com/ticket/${ticket_created.ticket_id}`
 
     QRCode.toDataURL(qrUrl, function (err, generated_url) {
