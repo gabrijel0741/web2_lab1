@@ -79,7 +79,7 @@ app.post('/close', checkJwt, async (req, res) => {
     sorted_numbers = Array.from(numbers).sort((a, b) => a - b);
 
     await db.pool.query(
-      'UPDATE rounds SET active = FALSE, closed_at = NOW(), numbers = $1 WHERE active = TRUE', [sorted_numbers]
+      'UPDATE rounds SET active = FALSE, closed_at = NOW(), winning_numbers = $1 WHERE active = TRUE', [sorted_numbers]
     );
     return res.status(204).send();
 

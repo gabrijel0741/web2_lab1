@@ -3,12 +3,15 @@ const router = express.Router();
 const Ticket = require('../models/TicketModel')
 const Round = require('../models/RoundModel');
 const QRCode = require('qrcode');
+const { body } = require('express-validator');
 
 router.post('/', async function (req, res, next) {
-    const {nums, user_oib} = req.body;
-    console.log(nums);
-    console.log(user_oib);
-
+    let nums = req.body.numbers;
+    let user_oib = req.body.oib;
+    console.log(req.body);
+    if (!nums || !user_oib) {
+        return res.json({err: "Please fill in all fields.", qr: null, body: req.body});
+    }
     let numbers_split = nums.split(',');
 
     let numbers = numbers_split.map(number => parseInt(number.trim()));
