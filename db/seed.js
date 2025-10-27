@@ -24,7 +24,7 @@ const sql_create_rounds = `CREATE TABLE IF NOT EXISTS rounds (
     active BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     closed_at TIMESTAMP,
-    winning_numbers INT[] NOT NULL
+    winning_numbers INT[]
 )`;
 
 const sql_create_tickets = `CREATE TABLE IF NOT EXISTS tickets (
