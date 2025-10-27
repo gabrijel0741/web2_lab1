@@ -15,12 +15,16 @@
 <main class="main">
     <div class="main-loto-div">
         <h1>Welcome to LOTO 6/45</h1>
-
+        <% if(!user) {%>
+            <div class="user-info-div">
+                <h1>Hello, <%= user.name %>!</h1>
+                <a href="/logout" class="logout-btn"><button>Click here to log out</button></a> 
+            </div>
+        <% } %>
         <% if(!user) {%>
             <a class="login-btn" href="/login"><button>Log In</button></a>
             <p>Please log in to continue.</p>
         <% } else {%>
-            <h1>Hello, <%= user.name %>!</h1>
             <form class="loto-form" action="/store-result" method="post">
                 <label class="loto-label" for="numbers">Write your Loto 6/45 numbers below:</label>
                 <input class="loto-numbers-input" type="text" name="numbers" id="numbers" minlength="1">
@@ -39,7 +43,6 @@
                 <% } %>
             </form>
 
-            <a href="/logout" class="logout-btn"><button>Click here to log out</button></a> 
         <% } %>
         
         
