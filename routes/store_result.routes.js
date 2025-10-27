@@ -8,20 +8,24 @@ const { body } = require('express-validator');
 router.post('/', async function (req, res, next) {
     let nums = req.body.numbers;
     let user_oib = req.body.oib;
+    console.log("request: " + JSON.stringify(req.body));
     if (!nums || !user_oib) {
         return res.json({err: "Please fill in all fields.", qr: null, body: req.body});
     }
+    console.log("Primio numbers i user_oib");
     let numbers_split = nums.split(',');
     
     let numbers = numbers_split.map(number => parseInt(number.trim()));
+    console.log("Podijelio numbers: " + JSON.stringify(numbers));
     //Provjere brojeva
     if (numbers.length < 6 || numbers.length > 10) {
         return {err: "Numbers count must be between 6 and 10.", qr: null};
     }
+    console.log("Provjerio kolicinu brojeva");
     if (!numbers.every(n => n >= 1 && n <= 45)) {
         return {err: "Numbers must be between 1 and 45.", qr: null};
     }
-    
+    console.log("Provjerio range brojeva");
     const nums_set = new Set(numbers);
     if (nums_set.size !== numbers.length) {
         return {err: "All numbers must be unique.", qr: null};
