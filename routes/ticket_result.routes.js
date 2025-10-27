@@ -4,10 +4,9 @@ const Round = require('../models/RoundModel');
 const Ticket = require('../models/TicketModel');
 
 router.get('/', async function (req, res, next) {
-    console.log({"AAAAAAAAAAAAAAAAAAAAAAAAAA": req.query})
     let ticket = new Ticket()
     ticket_res = await ticket.fetchTicketById(req.query.ticket_id);
-    console.log("ticket_res" + ticket_res)
+
     if(ticket_res.length === 0){
         return res.render('ticket', {
             title: 'Ticket Details',
@@ -17,9 +16,8 @@ router.get('/', async function (req, res, next) {
         });
     }
 
-    console.log("Krecem fetchat rundu: " + ticket_res[0].round_id)
+
     let activeRound = await Round.fetchRoundById(ticket_res[0].round_id);
-    console.log("Dohvatio rundu: " + activeRound)
     if(activeRound.length === 0){
         res.render('ticket', {
             title: 'Ticket Details',
