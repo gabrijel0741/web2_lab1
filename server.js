@@ -17,6 +17,12 @@ const storeResultRoute = require('./routes/store_result.routes');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(express.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.urlencoded({ extended: true }));
+
 //
 const oidcConfig = {
   authRequired: false, 
@@ -97,9 +103,7 @@ app.use((err, req, res, next) => {
   next(err);
 });
 //
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.urlencoded({ extended: true }));
 
 //pohrana sjednica u postgres bazu korštenjem connect-pg-simple modula
 app.use(session({
