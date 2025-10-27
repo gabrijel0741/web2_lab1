@@ -68,7 +68,6 @@ if ((tables.length !== table_data.length) || (tables.length !== table_names.leng
     for (let i = 0; i < tables.length; i++) {
         console.log("Creating table " + table_names[i] + ".");
         try {
-            await pool.query(`DROP TABLE IF EXISTS ` + table_names[i] + ` CASCADE;`, [])
             await pool.query(tables[i], [])
             console.log("Table " + table_names[i] + " created.");
             if (table_data[i] !== undefined) {

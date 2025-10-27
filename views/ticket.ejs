@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LOTO 6/45</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="./styles/home.css"/>
+</head>
+
+<body class="content">
+
+<main class="main">
+    <div class="main-loto-div">
+        <% if(!ticket) {%>
+            <div class="user-info-div">
+                <h1><%= round %>!</h1>
+            </div>
+        
+        <% } else {%>
+            <div class="loto-form" >
+                <label class="loto-label" for="numbers">Your numbers chosen are:</label>
+                <input class="loto-numbers-input" type="text" name="numbers" id="numbers" value="<%= ticket.numbers %>" readonly>
+                
+                <% if (nums) { %>
+                    <label class="winning-nums"><strong><%= round %></strong></label>
+                <% } else {%>
+                    <label class="winning-nums"><%= round %></label>
+                <% } %>
+            </div>
+
+        <% } %>
+        
+        
+    </div> 
+</main>
+
+</body>
+
+</html>
+
+
+<script>
+
+    function storeResult() {
+        const ticketData = {
+            numbers: document.getElementById('numbers').value,
+            oib: document.getElementById('oib').value
+        }
+        if (!ticketData.numbers || !ticketData.oib) {
+            document.querySelector('.alert').innerHTML = "Please fill in all fields.";
+            document.querySelector('.qr-img').src = "";
+            return;
+        }
+
+        fetch('/store-result', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ticketData)
+        }).then(response => response.json())
+        .then(data => {
+            if (data.err) {
+                document.querySelector('.alert').innerHTML = data.err;
+                document.querySelector('.qr-img').src = "";
+            } else {
+                if (data.qr) {
+                    document.querySelector('.alert').innerHTML = "";
+                    document.querySelector('.qr-img').src = data.qr;
+                }
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+</script>

@@ -9,10 +9,8 @@ const { auth: authOIDC } = require('express-openid-connect');
 const { auth: jwtCheck } = require('express-oauth2-jwt-bearer');
 
 const homeRouter = require('./routes/home.routes');
-const loginRoute = require('./routes/login.routes');
-const logoutRoute = require('./routes/logout.routes');
-const signupRoute = require('./routes/signup.routes');
 const storeResultRoute = require('./routes/store_result.routes');
+const ticketRoute = require('./routes/ticket_result.routes');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -117,9 +115,7 @@ app.use(session({
 
 app.use('/', homeRouter);
 app.use('/store-result', storeResultRoute);
-//app.use('/login', loginRoute);
-//app.use('/logout', logoutRoute);
-//app.use('/signup', signupRoute);
+app.use('/ticket', ticketRoute);
 
 app.get('/auth-test', (req, res) => {
   if (req.oidc.isAuthenticated()) {

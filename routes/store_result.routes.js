@@ -45,7 +45,7 @@ router.post('/', async function (req, res, next) {
     // Ako se metoda pozove dok su uplate aktivne ili li ako su za trenutno kolo već izvučeni brojevi, vrati status 409 
     let ticket_created = await ticket.createTicket(user.sub, activeRound[0].id, numbers, user_oib)
     console.log("Ticket created: " + JSON.stringify(ticket_created));
-    const qrUrl = "https://web2-lab1-jd16.onrender.com/ticket/" + ticket_created.ticket_id
+    const qrUrl = "https://web2-lab1-jd16.onrender.com/ticket?ticket_id=" + ticket_created.ticket_id
 
     QRCode.toDataURL(qrUrl, function (err, generated_url) {
         if (err) {
