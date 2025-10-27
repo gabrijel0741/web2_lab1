@@ -10,7 +10,7 @@ router.post('/', async function (req, res, next) {
     let user_oib = req.body.oib;
     console.log("request: " + JSON.stringify(req.body));
     if (!nums || !user_oib) {
-        return res.json({err: "Please fill in all fields.", qr: null, body: req.body});
+        return res.json({ err: "Please fill in all fields.", qr: null });
     }
     console.log("Primio numbers i user_oib");
     let numbers_split = nums.split(',');
@@ -19,23 +19,23 @@ router.post('/', async function (req, res, next) {
     console.log("Podijelio numbers: " + JSON.stringify(numbers));
     //Provjere brojeva
     if (numbers.length < 6 || numbers.length > 10) {
-        return {err: "Numbers count must be between 6 and 10.", qr: null};
+        return res.json({ err: "Numbers count must be between 6 and 10.", qr: null });
     }
     console.log("Provjerio kolicinu brojeva");
     if (!numbers.every(n => n >= 1 && n <= 45)) {
-        return {err: "Numbers must be between 1 and 45.", qr: null};
+        return res.json({ err: "Numbers must be between 1 and 45.", qr: null });
     }
     console.log("Provjerio range brojeva");
     const nums_set = new Set(numbers);
     if (nums_set.size !== numbers.length) {
-        return {err: "All numbers must be unique.", qr: null};
+        return res.json({ err: "All numbers must be unique.", qr: null });
     }
     
     console.log("Zapocinjem fetch aktivne runde");
     // prvo provjeri postoji li aktivno kolo
     let activeRound = await Round.fetchActiveRound()
     if(activeRound.length === 0){
-        return {err: "No active round found.", qr: null};
+        return res.json({ err: "No active round found.", qr: null });
     }
     console.log("Aktivno kolo: " + JSON.stringify(activeRound));
     let user = req.oidc.user
@@ -49,10 +49,10 @@ router.post('/', async function (req, res, next) {
 
     QRCode.toDataURL(qrUrl, function (err, generated_url) {
         if (err) {
-            return {err: "ERROR generating QR code", qr: null};
+            return res.json({ err: "ERROR generating QR code", qr: null });
         }
         else {
-            return {err: null, qr: generated_url};
+            return res.json({ err: undefined, qr: generated_url });
         }
     });    
         
