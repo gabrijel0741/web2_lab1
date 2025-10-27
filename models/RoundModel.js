@@ -29,7 +29,7 @@ module.exports = class Round {
 
 
 dbGetRoundById = async (round_id) => {
-    const sql = `SELECT * FROM rounds WHERE round_id = ` + round_id;
+    const sql = `SELECT * FROM rounds WHERE id = ` + round_id;
     try {
         const result = await db.query(sql, []);
         return result.rows;
