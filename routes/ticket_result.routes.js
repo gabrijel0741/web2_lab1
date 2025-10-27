@@ -4,8 +4,7 @@ const Round = require('../models/RoundModel');
 const Ticket = require('../models/TicketModel');
 
 router.get('/', async function (req, res, next) {
-    let ticket = new Ticket();
-    ticket_res = await ticket.fetchTicketById(req.query.ticket_id);
+    ticket_res = await Ticket.fetchTicketById(req.query.ticket_id);
     if(ticket_res.length === 0){
         return res.render('ticket', {
             title: 'Ticket Details',
