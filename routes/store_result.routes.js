@@ -34,7 +34,7 @@ router.post('/', async function (req, res, next) {
     console.log("Zapocinjem fetch aktivne runde");
     // prvo provjeri postoji li aktivno kolo
     let activeRound = await Round.fetchActiveRound()
-    if(activeRound === "No active round found."){
+    if(activeRound.length === 0){
         return {err: "No active round found.", qr: null};
     }
     console.log("Aktivno kolo: " + JSON.stringify(activeRound));
